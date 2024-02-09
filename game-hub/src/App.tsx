@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Grid, GridItem, Show } from "@chakra-ui/react";
+import "./App.scss";
+import NavBar from "./components/NavBar";
+import GameGrid from "./components/GameGrid";
+import GenraList from "./components/GenraList";
+import { useState } from "react";
+import { Genre } from "./hooks/useGenre";
+import PlatformSelector from "./components/PlatformSelector";
+import { Platform } from "./hooks/useGames";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+    const [selected_genre, setSelectedGenre] = useState<Genre | null>(null);
+    const [selected_platform, setSelectPlatform] = useState<Platform | null>(null);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return <Grid 
+            templateAreas={{
+                base: `"nav" "main"`,
+                lg: `"nav nav" "aside main"`
+            }}
+            templateColumns={{
+                base: "1fr",
+                lg: "200px 1fr"
+            }}
+        >
+        <GridItem area="nav">
+            <NavBar />
+        </GridItem>
+        <Show above="lg">
+            <GridItem area="aside" paddingX={ 5 }>
+                <GenraList selectedGenre={ selected_genre } onSelectGenre={ (genre) => setSelectedGenre(genre) } />
+            </GridItem>
+        </Show>
+        <GridItem area="main">
+            <PlatformSelector  selectedPlatform={ selected_platform } onSelectPlatform={ (platform) => setSelectPlatform(platform) } />
+            <GameGrid selectedPlatform={ selected_platform } selectedGenre={ selected_genre }/>
+        </GridItem>
+    </Grid>
 }
 
-export default App
+export default App;
