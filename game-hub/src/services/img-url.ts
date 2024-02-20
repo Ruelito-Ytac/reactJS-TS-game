@@ -1,4 +1,8 @@
+import ImagePlaceholder from "../assets/Image Placeholder/no-image-placeholder.webp";
+
 const getCropIMGURL = (url: string) => {
+    if(!url) return ImagePlaceholder;
+
     const target = "media/"
     const index = url.indexOf(target) + target.length;
 
