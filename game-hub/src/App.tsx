@@ -8,11 +8,13 @@ import { Genre } from "./hooks/useGenre";
 import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/useGames";
 import SortSelector from "./components/SortSelector";
+import GameHeading from "./components/GameHeading";
 
 export interface GameQuery{
     genre: Genre | null;
     platform: Platform | null;
     sortOrder: string;
+    searchText: string;
 }
 
 const App = () => {
@@ -29,7 +31,7 @@ const App = () => {
             }}
         >
         <GridItem area="nav">
-            <NavBar />
+            <NavBar onSearch={ (searchText) => setGameQuery({ ...game_query, searchText }) } />
         </GridItem>
         <Show above="lg">
             <GridItem area="aside" paddingX={ 5 }>
@@ -37,14 +39,17 @@ const App = () => {
             </GridItem>
         </Show>
         <GridItem area="main">
-            <Flex paddingLeft={ 2 } marginBottom={ 5 }>
-                <Box marginRight={ 5 }>
-                    <PlatformSelector  selectedPlatform={ game_query.platform } onSelectPlatform={ (platform) => setGameQuery({ ...game_query, platform }) } />
-                </Box>
-                <Box>
-                    <SortSelector sortOrder={ game_query.sortOrder } onSelectSortOrder={ (sortOrder) => setGameQuery({ ...game_query, sortOrder }) } />
-                </Box>
-            </Flex>
+            <Box paddingLeft={ 2 }>
+                <GameHeading gameQuery={ game_query } />
+                <Flex  marginBottom={ 5 }>
+                    <Box marginRight={ 5 }>
+                        <PlatformSelector  selectedPlatform={ game_query.platform } onSelectPlatform={ (platform) => setGameQuery({ ...game_query, platform }) } />
+                    </Box>
+                    <Box>
+                        <SortSelector sortOrder={ game_query.sortOrder } onSelectSortOrder={ (sortOrder) => setGameQuery({ ...game_query, sortOrder }) } />
+                    </Box>
+                </Flex>
+            </Box>
             <GameGrid gameQuery={ game_query } />
         </GridItem>
     </Grid>

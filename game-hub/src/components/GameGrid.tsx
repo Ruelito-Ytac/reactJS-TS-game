@@ -13,11 +13,11 @@ const GameGrid = ({ gameQuery } : GameGridProps) => {
     const { data, error, is_loading } = useGames(gameQuery);
     const skeletons = [1, 2, 3, 4, 5, 6];
     
+    if(error) return <p>{ error }</p> 
+
     return (
         <>
-            { error && <p>{ error }</p> }
-            
-            <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 5 }} padding="10px" spacing={ 3 }>
+            <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} padding="10px" spacing={ 6 }>
                 { (is_loading) && skeletons.map((skeleton) => <GameCardContainer key={ skeleton }><GameCardSkeleton/></GameCardContainer>) }
                 { (!is_loading) && data.map((game) => 
                     <GameCardContainer key={ game.id }>
