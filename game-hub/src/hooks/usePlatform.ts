@@ -1,5 +1,8 @@
-import platforms from "../data/platforms";
+import usePlatforms from "./usePlatforms";
 
-const usePlatform = () => ({ data: platforms, isLoading: false, error: null });
+const usePlatform = (id?: number) => {
+    const { data: platforms } = usePlatforms();
+    return platforms?.results.find(platform_item => platform_item.id === id);
+}
 
 export default usePlatform;
